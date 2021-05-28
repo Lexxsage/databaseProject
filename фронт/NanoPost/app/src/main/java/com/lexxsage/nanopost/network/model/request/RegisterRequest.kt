@@ -1,4 +1,4 @@
-package com.lexxsage.nanopost.network.model
+package com.lexxsage.nanopost.network.model.request
 
 import kotlinx.serialization.Serializable
 

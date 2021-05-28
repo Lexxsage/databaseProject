@@ -14,7 +14,8 @@ import kotlinx.coroutines.flow.collect
 
 abstract class BaseFragment(@LayoutRes private val layoutId: Int) : Fragment() {
 
-    abstract val viewModel: BaseViewModel
+    open val viewModel: BaseViewModel? = null
+    var root: View? = null
     private var errorMessage: Snackbar? = null
 
     val viewLifecycleScope get() = viewLifecycleOwner.lifecycleScope
@@ -24,15 +25,15 @@ abstract class BaseFragment(@LayoutRes private val layoutId: Int) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val child = inflater.inflate(layoutId, container, false)
-        return if (child is CoordinatorLayout) {
-            child
+        root = inflater.inflate(layoutId, container, false)
+        return if (root is CoordinatorLayout) {
+            root!!
         } else {
-            val lparams = CoordinatorLayout.LayoutParams(child.layoutParams).apply {
+            val lparams = CoordinatorLayout.LayoutParams(root!!.layoutParams).apply {
                 behavior = AppBarLayout.ScrollingViewBehavior()
             }
             CoordinatorLayout(inflater.context).apply {
-                addView(child, lparams)
+                addView(root, lparams)
             }
         }
     }
@@ -40,8 +41,8 @@ abstract class BaseFragment(@LayoutRes private val layoutId: Int) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.errors().collect(::showError)
+        viewLifecycleScope.launchWhenCreated {
+            viewModel?.errors()?.collect(::showError)
         }
     }
 

@@ -5,9 +5,10 @@ import org.jetbrains.exposed.sql.SchemaUtils
 
 fun initDatabase(testing: Boolean): Database {
     val db = Database.connect(
-        url = "jdbc:postgresql://localhost:5432/lexxsage",
+        url = "jdbc:postgresql://localhost:5432/u191200",
         driver = "org.postgresql.Driver",
-        user = "lexxsage",
+        user = "u191200",
+        password = "Lexxsage18"
     )
 
     org.jetbrains.exposed.sql.transactions.transaction(db) {

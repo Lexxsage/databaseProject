@@ -18,6 +18,11 @@
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.NanoPost.Large</item>
     </style>
 
+    <style name="Theme.NanoPost.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="ShapeAppearance.NanoPost" parent="ShapeAppearance.MaterialComponents">
         <item name="cornerFamily">cut</item>
     </style>

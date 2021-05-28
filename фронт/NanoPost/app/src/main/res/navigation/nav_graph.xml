@@ -36,6 +36,20 @@
     <fragment
         android:id="@+id/feed_fragment"
         android:name="com.lexxsage.nanopost.ui.feed.FeedFragment"
-        tools:layout="@layout/fragment_feed"/>
+        tools:layout="@layout/fragment_feed"
+        android:label="Feed">
+        <action
+            android:id="@+id/action_feed_fragment_to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profile_fragment"
+        android:name="com.lexxsage.nanopost.ui.profile.ProfileFragment"
+        android:label="Profile" >
+        <argument
+            android:name="id"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 
 </navigation>

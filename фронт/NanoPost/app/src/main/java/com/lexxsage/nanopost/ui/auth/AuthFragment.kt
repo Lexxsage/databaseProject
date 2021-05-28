@@ -9,25 +9,18 @@ import androidx.navigation.fragment.findNavController
 import com.lexxsage.nanopost.R
 import com.lexxsage.nanopost.databinding.FragmentAuthBinding
 import com.lexxsage.nanopost.repository.SettingsRepository
+import com.lexxsage.nanopost.ui.BaseFragment
+import com.lexxsage.nanopost.ui.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AuthFragment : Fragment() {
+class AuthFragment : BaseFragment(R.layout.fragment_auth) {
+
+    private val binding by viewBinding(FragmentAuthBinding::bind)
 
     @Inject
     lateinit var settingsRepository: SettingsRepository
-
-    private lateinit var binding: FragmentAuthBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding = FragmentAuthBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -3,13 +3,13 @@ package com.lexxsage.nanopost.ui.auth.register
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.lexxsage.nanopost.R
 import com.lexxsage.nanopost.databinding.FragmentRegisterBinding
+import com.lexxsage.nanopost.focus
 import com.lexxsage.nanopost.textChanges
 import com.lexxsage.nanopost.ui.BaseFragment
+import com.lexxsage.nanopost.ui.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -21,25 +21,14 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
-    private lateinit var binding: FragmentRegisterBinding
+    private val binding by viewBinding(FragmentRegisterBinding::bind)
     override val viewModel by viewModels<RegisterViewModel>()
-    private var errorMessage: Snackbar? = null
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launchWhenCreated {
-            viewModel.errors().collect { e ->
-                errorMessage?.dismiss()
-                errorMessage = Snackbar.make(
-                    binding.root,
-                    e.localizedMessage ?: "An error occurred",
-                    Snackbar.LENGTH_SHORT,
-                ).also { it.show() }
-                binding.registerButton.isEnabled = true
-            }
-
+        viewLifecycleScope.launchWhenCreated {
             viewModel.result.collect {
                 if (it) {
                     findNavController().popBackStack(R.id.auth_fragment, true)
@@ -72,6 +61,11 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
                 registerButton.isEnabled = false
             }
         }
+    }
+
+    override fun showError(e: Exception) {
+        super.showError(e)
+        binding.registerButton.isEnabled = true
     }
 
     private fun setUsernameFieldState(state: UsernameState) {

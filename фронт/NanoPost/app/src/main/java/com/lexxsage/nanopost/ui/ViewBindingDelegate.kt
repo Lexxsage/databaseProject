@@ -9,12 +9,12 @@ import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-fun <T : ViewBinding> Fragment.viewBinding(bindingProvider: (View) -> T): ReadOnlyProperty<Any, T> {
+fun <T : ViewBinding> BaseFragment.viewBinding(bindingProvider: (View) -> T): ReadOnlyProperty<Any, T> {
     return ViewBindingDelegate(this, bindingProvider)
 }
 
 private class ViewBindingDelegate<T : ViewBinding>(
-    private val fragment: Fragment,
+    private val fragment: BaseFragment,
     private val bindingProvider: (View) -> T
 ) : ReadOnlyProperty<Any, T> {
 
@@ -34,7 +34,7 @@ private class ViewBindingDelegate<T : ViewBinding>(
     override fun getValue(thisRef: Any, property: KProperty<*>): T {
         val aBinding = binding
         if (aBinding != null) return aBinding
-        val view = fragment.view ?: error("Attempt to use binding before onViewCreated()")
+        val view = fragment.root ?: error("Attempt to use binding before onViewCreated()")
         return bindingProvider(view).also { binding = it }
     }
 }

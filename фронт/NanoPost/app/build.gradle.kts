@@ -5,6 +5,7 @@ plugins {
     kotlin("plugin.serialization")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -47,6 +48,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.3.0")
     implementation("com.google.android.material:material:1.3.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("io.coil-kt:coil:1.2.1")
 
     // Architecture & navigation
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")

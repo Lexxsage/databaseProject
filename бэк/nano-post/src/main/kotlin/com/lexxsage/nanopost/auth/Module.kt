@@ -80,7 +80,6 @@ data class AuthResponse(
 class InvalidPasswordException : BackendException(HttpStatusCode.BadRequest, "INVALID_PASSWORD")
 class UserNotFoundException : BackendException(HttpStatusCode.BadRequest, "USER_NOT_FOUND")
 
-@JvmInline
-value class UserPrincipal(val user: UserEntity) : Principal
+class UserPrincipal(val user: UserEntity) : Principal
 
 val ApplicationCall.user get() = principal<UserPrincipal>()!!.user

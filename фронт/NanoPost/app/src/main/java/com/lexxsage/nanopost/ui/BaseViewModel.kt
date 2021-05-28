@@ -10,7 +10,10 @@ import kotlin.coroutines.cancellation.CancellationException
 
 abstract class BaseViewModel : ViewModel() {
 
-    protected val errors = MutableSharedFlow<Exception>(onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    protected val errors = MutableSharedFlow<Exception>(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+    )
 
     fun errors(): SharedFlow<Exception> = errors
 
@@ -22,6 +25,7 @@ abstract class BaseViewModel : ViewModel() {
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
+            e.printStackTrace()
             errors.emit(e)
         }
     }

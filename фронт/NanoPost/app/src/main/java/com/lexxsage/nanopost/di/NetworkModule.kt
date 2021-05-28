@@ -19,7 +19,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(converterFactory: Converter.Factory): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://MBP-Evo.local/")
+            .baseUrl("http://192.168.1.5:8080/")
             .addConverterFactory(converterFactory)
             .build()
     }
@@ -33,7 +33,7 @@ object NetworkModule {
         authInterceptor: AuthInterceptor,
     ): NanoPostApiService {
         return retrofit.newBuilder()
-            .baseUrl("http://MBP-Evo.local/")
+            .baseUrl("http://192.168.1.5:8080/")
             .client(
                 OkHttpClient.Builder()
                     .addInterceptor(authInterceptor)

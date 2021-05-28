@@ -25,10 +25,17 @@ class SettingsRepository @Inject constructor(
                 }
             }
         }
-
-    fun authToken() = dataStore.data
-        .map { it[authTokenKey] }
-        .distinctUntilChanged()
+    var userId: String?
+        get() = runBlocking { dataStore.data.first()[userIdKey] }
+        set(value) = runBlocking {
+            dataStore.edit { settings ->
+                if (value != null) {
+                    settings[userIdKey] = value
+                } else {
+                    settings.remove(userIdKey)
+                }
+            }
+        }
 
     fun authorized() = dataStore.data
         .map { it[authTokenKey] != null }
@@ -36,5 +43,6 @@ class SettingsRepository @Inject constructor(
 
     companion object {
         val authTokenKey = stringPreferencesKey("authToken")
+        val userIdKey = stringPreferencesKey("userId")
     }
 }
